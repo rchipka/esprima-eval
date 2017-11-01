@@ -1,0 +1,25 @@
+{
+  "name": "esprima-eval",
+  "version": "0.0.1",
+  "description": "Static evaluation on Esprima ASTs",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rchipka/esprima-eval.git"
+  },
+  "author": {
+    "name": "rchipka",
+    "email": "chipka01@email.franklin.edu"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "license": "MIT",
+  "main": "index",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/rchipka/esprima-eval/issues"
+  },
+  "dependencies": {
+  }
+}
