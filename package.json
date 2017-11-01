@@ -2,7 +2,15 @@
   "name": "esprima-eval",
   "version": "0.0.1",
   "description": "Static evaluation on Esprima ASTs",
-  "keywords": [],
+  "keywords": [
+    "esprima",
+    "static",
+    "eval",
+    "evaluation",
+    "vm",
+    "virtual",
+    "machine"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/rchipka/esprima-eval.git"
