@@ -1,5 +1,7 @@
 'use strict';
 
+var util = require('util');
+
 module.exports = function (scope, node, callback) {
   var variableScope = scope,
       declarations  = node.declarations,
