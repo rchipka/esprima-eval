@@ -3,8 +3,6 @@
 module.exports = function (scope, node, callback) {
   scope.walk(node.object, function (object) {
 
-    console.log('got object', object);
-
     if (object === scope.FAIL){
       return callback(scope.FAIL);
     }

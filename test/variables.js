@@ -7,26 +7,43 @@ var assert = require('assert'),
 
 
 function create(func) {
-  var ast = parse('(' + func.toString() + ')()');
+  var ast = parse(func.toString().replace(/^[^\{]+\s*\{/, '').replace(/\}\s*$/, ''));
   // console.log(util.inspect(ast, {depth: null}));
   return esEval(ast);
 }
 
 describe('VariableDeclaration', function () {
-  describe('scope', function() {
-    it('should set a value in scope', function (done) {
-      var run = create(function ({z, y}) {
-          var x = 1;
-          console.log(x);
-        }),
-        scope = new esEval.Scope({
-          console: console
-        });
+  describe('Set a value in global scope', function () {
 
+    it('using `var`', function (done) {
+      var scope = new esEval.Scope({});
 
-      run(scope, function () {
-        
-      console.log(scope.data);
+      create(function () {
+        var x = 1;
+      })(scope, function (a) {
+        assert.strictEqual(scope.data.x, 1);
+        done();
+      });
+    });
+
+    it('using `let`', function (done) {
+      var scope = new esEval.Scope({});
+
+      create(function () {
+        let x = 1;
+      })(scope, function (a) {
+        assert.strictEqual(scope.data.x, 1);
+        done();
+      });
+    });
+
+    it('using none', function (done) {
+      var scope = new esEval.Scope({});
+
+      create(function () {
+        x = 1;
+      })(scope, function (a) {
+        assert.strictEqual(scope.data.x, 1);
         done();
       });
     });
