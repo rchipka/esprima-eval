@@ -16,7 +16,6 @@ module.exports = function (self, node, callback) {
 
   for (var i = 0, l = length; i < l; i++) {
     self.child(node.elements[i].type).walk(node.elements[i], function (value) {
-      if (x === FAIL) return callback(FAIL);
       push(value);
     });
   }

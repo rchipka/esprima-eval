@@ -1,33 +1,29 @@
 'use strict';
 
-module.exports = function (self, node, callback) {
-  self.child(node.type).walk(node.left, function (l) {
-    if (l === FAIL) return FAIL;
-
-    self.child(node.type).walk(node.right, function (r) {
-      if (r === FAIL) return FAIL;
-      
+module.exports = function (scope, node, callback) {
+  scope.child(node.type).walk(node.left, function (l) {
+    scope.child(node.type).walk(node.right, function (r) {
       var op = node.operator;
-      if (op === '==') return l == r;
-      if (op === '===') return l === r;
-      if (op === '!=') return l != r;
-      if (op === '!==') return l !== r;
-      if (op === '+') return l + r;
-      if (op === '-') return l - r;
-      if (op === '*') return l * r;
-      if (op === '/') return l / r;
-      if (op === '%') return l % r;
-      if (op === '<') return l < r;
-      if (op === '<=') return l <= r;
-      if (op === '>') return l > r;
-      if (op === '>=') return l >= r;
-      if (op === '|') return l | r;
-      if (op === '&') return l & r;
-      if (op === '^') return l ^ r;
-      if (op === '&&') return l && r;
-      if (op === '||') return l || r;
+      if (op === '==') return callback(l == r);
+      if (op === '===') return callback(l === r);
+      if (op === '!=') return callback(l != r);
+      if (op === '!==') return callback(l !== r);
+      if (op === '+') return callback(l + r);
+      if (op === '-') return callback(l - r);
+      if (op === '*') return callback(l * r);
+      if (op === '/') return callback(l / r);
+      if (op === '%') return callback(l % r);
+      if (op === '<') return callback(l < r);
+      if (op === '<=') return callback(l <= r);
+      if (op === '>') return callback(l > r);
+      if (op === '>=') return callback(l >= r);
+      if (op === '|') return callback(l | r);
+      if (op === '&') return callback(l & r);
+      if (op === '^') return callback(l ^ r);
+      if (op === '&&') return callback(l && r);
+      if (op === '||') return callback(l || r);
       
-      return FAIL;
+      return scope.fail(callback);
     });
   });
 

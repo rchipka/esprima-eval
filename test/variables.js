@@ -5,14 +5,15 @@ var assert = require('assert'),
     esEval = require('../'),
     util = require('util');
 
-
 function create(func) {
   var ast = parse(func.toString().replace(/^[^\{]+\s*\{/, '').replace(/\}\s*$/, ''));
   // console.log(util.inspect(ast, {depth: null}));
-  return esEval(ast);
+  return function (scope, callback) {
+    scope.walk(ast, callback);
+  }
 }
 
-describe('Variable Assignment', function () {
+describe('Variable assignment', function () {
   describe('Global scope', function () {
 
     it('should work using `var`', function (done) {
@@ -20,7 +21,7 @@ describe('Variable Assignment', function () {
 
       create(function () {
         var x = 1;
-      })(scope, function (a) {
+      })(scope, function () {
         assert.strictEqual(scope.data.x, 1);
         done();
       });
@@ -31,7 +32,7 @@ describe('Variable Assignment', function () {
 
       create(function () {
         let x = 1;
-      })(scope, function (a) {
+      })(scope, function () {
         assert.strictEqual(scope.data.x, 1);
         done();
       });
@@ -41,8 +42,10 @@ describe('Variable Assignment', function () {
       var scope = new esEval.Scope({});
 
       create(function () {
-        x = 1;
-      })(scope, function (a) {
+        (function () {
+          x = 1;
+        })();
+      })(scope, function () {
         assert.strictEqual(scope.data.x, 1);
         done();
       });

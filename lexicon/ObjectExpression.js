@@ -14,10 +14,6 @@ module.exports = function (scope, node, callback) {
     var prop = properties[index];
 
     scope.walk(prop.value, function (value) {
-      if (value === scope.FAIL) {
-        return callback(scope.FAIL);
-      }
-
       object[prop.key.name] = value;
 
       next(object);

@@ -2,21 +2,14 @@
 
 module.exports = function (scope, node, callback) {
   scope.walk(node.object, function (object) {
-
-    if (object === scope.FAIL){
-      return callback(scope.FAIL);
-    }
-
     if (node.property.type === 'Identifier') {
-      return callback(getProp(object, node.property.name));
+      var prop = node.property.name;
+
+      return callback(getProp(object, prop), object, prop);
     }
 
     scope.walk(node.property, function (prop) {
-      if (prop === scope.FAIL) {
-        return callback(scope.FAIL);
-      }
-
-      return callback(getProp(object, prop));
+      return callback(getProp(object, prop), object, prop);
     });
   });
 }
