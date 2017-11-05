@@ -35,6 +35,12 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   - [ ] Error handling
   - [ ] Error skipping/resolution
 
+## Globals
+
+  - [x] Configurable
+  - [x] Protected objects
+  - [x] Protected prototype objects
+
 ## Scope
 
   - [x] Scope proxy
