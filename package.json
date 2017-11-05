@@ -1,10 +1,11 @@
 {
   "name": "esprima-eval",
   "version": "0.0.1",
-  "description": "Static evaluation on Esprima ASTs",
+  "description": "Fast evaluation on ESTree-compatible ASTs",
   "keywords": [
     "esprima",
     "estree",
+    "cherow",
     "static",
     "eval",
     "evaluation",
