@@ -26,12 +26,18 @@ var Globals = require('./lib/Globals.js'),
       BlockStatement: function (scope, node, callback) {
         return scope.child(true).walk(node.body, callback);
       },
+      SequenceExpression: function (scope, node, callback) {
+        scope.iterate(node.expressions.length, function (i, next) {
+          scope.walk(node.expressions[i], next);
+        }, callback);
+      },
       AssignmentExpression:   require('./lexicon/AssignmentExpression.js'),
       ArrayExpression:        require('./lexicon/ArrayExpression.js'),
       UnaryExpression:        require('./lexicon/UnaryExpression.js'),
       ObjectExpression:       require('./lexicon/ObjectExpression.js'),
       BinaryExpression:       require('./lexicon/BinaryExpression.js'),
       LogicalExpression:      require('./lexicon/BinaryExpression.js'),
+      UpdateExpression:      require('./lexicon/UpdateExpression.js'),
       CallExpression:         require('./lexicon/CallExpression.js'),
       MemberExpression:       require('./lexicon/MemberExpression.js'),
       ConditionalExpression:  require('./lexicon/ConditionalExpression.js'),
@@ -39,6 +45,7 @@ var Globals = require('./lib/Globals.js'),
       FunctionDeclaration:    require('./lexicon/FunctionDeclaration.js'),
       VariableDeclaration:    require('./lexicon/VariableDeclaration.js'),
       IfStatement:            require('./lexicon/IfStatement.js'),
+      ForStatement:            require('./lexicon/ForStatement.js'),
       TemplateLiteral:        require('./lexicon/TemplateLiteral.js')
     };
 
@@ -78,7 +85,7 @@ Scope.prototype.child = function (isBlock) {
 }
 
 Scope.prototype.get = function (key, callback) {
-  // console.log('get', key, this.depth);
+  // console.log('get', key, this.depth, this.data);
 
   if (key === 'this') {
     callback(this.fs.data.this);
@@ -93,7 +100,7 @@ Scope.prototype.get = function (key, callback) {
     return;
   }
 
-  callback(this.data[key]);
+  callback(this.data[key], this.data, key);
 }
 
 Scope.prototype.getScopeOf = function (key, resolve, reject) {
@@ -145,6 +152,10 @@ Scope.prototype.walk = function (node, callback) {
   //     self[node.type].call(null, node, callback, value);
   //   });
   // }
+
+  if (Lexicon.hasOwnProperty(node.type) === false) {
+    return this.error(node, 'Unkown token ' + JSON.stringify(node.type), callback);
+  }
 
   return Lexicon[node.type](this, node, callback);
 }

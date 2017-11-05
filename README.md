@@ -1,6 +1,6 @@
 # esprima-eval
 
-Static evaluation on Esprima ASTs
+Fast static evaluation on ESTree-compatible ASTs
 
 # Install
 
@@ -12,10 +12,16 @@ Static evaluation on Esprima ASTs
 var esEval   = require('esprima-eval'),
     esprima  = require('esprima');
 
-
 var ast = esprima.parseScript(' ... ');
 
 new esEval.Scope(globals).walk(ast, function (returnValue) {
   // done
 });
 ```
+
+# Features
+
+ * Comprehensive tests
+ * Fully asynchronous API and internals
+ * ECMA 3 and IE8 compatible
+ * ESNext support

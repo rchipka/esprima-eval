@@ -2,6 +2,7 @@
 
 module.exports = function (scope, node, callback) {
   var body = node.body.body,
+      params = node.params,
       func = function () {
         var length = arguments.length,
             args = new Array(length),
@@ -23,7 +24,7 @@ module.exports = function (scope, node, callback) {
         var param = params[i];
 
         if (param.type === 'Identifier') {
-          child.set(param.id.name, args[i]);
+          child.set(param.name, args[i], next);
         } else {
           child.walk(param, next);
         }

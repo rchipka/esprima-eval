@@ -185,6 +185,7 @@ describe('Variable assignment', function () {
   });
 });
 
+// member expression should error if object is undefined
 // should not be able to override Function.prototype.call, etc.
 // Object.getPrototypeOf(function) shouldn't be native proto
 // functions should work when passing to eval

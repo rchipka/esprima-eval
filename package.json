@@ -4,6 +4,7 @@
   "description": "Static evaluation on Esprima ASTs",
   "keywords": [
     "esprima",
+    "estree",
     "static",
     "eval",
     "evaluation",

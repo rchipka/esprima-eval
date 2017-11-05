@@ -3,7 +3,7 @@
 module.exports = function (scope, node, callback) {
   var ret;
 
-  scope.walk(node.callee, function (callee) {
+  scope.walk(node.callee, function (callee, object, prop) {
     if (typeof callee !== 'function') {
       scope.error(node, JSON.stringify(callee) + ' is not a function', callback);
       return;
@@ -21,6 +21,9 @@ module.exports = function (scope, node, callback) {
         return;
       }
 
+      console.log('Real Call', callee, object, args);
+
+      // TODO: .apply() null or `object`?
       callback(ret = callee.apply(null, args));
     });
   });
