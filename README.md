@@ -37,9 +37,16 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
 
 ## Globals
 
-  - [x] Configurable
-  - [x] Protected objects
-  - [x] Protected prototype objects
+  - [x] Protected objects/prototypes
+  - [ ] `Array`
+  - [x] `Function`
+  - [x] `Object`
+  - [ ] `Date`
+  - [ ] `Number`
+  - [ ] `RegExp`
+  - [ ] `String`
+  - [ ] `Proxy`
+  - [ ] `Symbol`
 
 ## Scope
 
@@ -92,3 +99,5 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   - [ ] Promise constructor
   - [ ] Promise.then
   - [ ] Promise.catch
+
+## Symbols
