@@ -110,3 +110,9 @@ scope.walk(ast, function (returnValue) {
   - [ ] Promise.catch
 
 ## Symbols
+
+## Errors
+
+ - [ ] Error constructor
+ - [ ] Stack traces
+ - [ ] Try/catch
