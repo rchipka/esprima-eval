@@ -35,10 +35,9 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   - [ ] Error handling
   - [ ] Error skipping/resolution
 
-
 ## Scope
 
-  - [x] Scope proxying
+  - [x] Scope proxy
   - [x] Scope chain lookup
   - [x] Function scope (`var`)
   - [x] Block scope (`let`)
@@ -56,6 +55,14 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   - [x] Strict/non-strict equality
   - [x] >=, <=
   - [x] If statements
+
+## Loops
+
+  - [x] For loops
+  - [ ] While loops
+  - [ ] `break`
+  - [ ] `continue`
+  - [ ] `return`
 
 ## Functions
 
