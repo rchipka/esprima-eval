@@ -22,7 +22,7 @@
     "email": "chipka01@email.franklin.edu"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "mocha"
   },
   "license": "MIT",
   "main": "index",

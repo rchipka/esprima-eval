@@ -20,9 +20,18 @@ Fast evaluation on ESTree-compatible ASTs
 var esEval   = require('esprima-eval'),
     esprima  = require('esprima');
 
-var ast = esprima.parseScript(' ... ');
+var ast   = esprima.parseScript(' ... '),
+    scope = new esEval.Scope(globals);
 
-new esEval.Scope(globals).walk(ast, function (returnValue) {
+scope.on('get', function () {
+  // supports custom scope data handlers
+});
+
+scope.on('ConditionalExpression', function () {
+  // supports custom lexical node handlers
+});
+
+scope.walk(ast, function (returnValue) {
   // done
 });
 ```
