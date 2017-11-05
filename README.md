@@ -60,8 +60,7 @@ scope.walk(ast, function (returnValue) {
 
 ## Scope
 
-  - [x] Scope proxy
-  - [x] Scope chain lookup
+  - [x] Scope chain
   - [x] Function scope (`var`)
   - [x] Block scope (`let`)
 
