@@ -43,10 +43,10 @@ scope.walk(ast, function (returnValue) {
   - [ ] Strict mode
   - [ ] Error handling
   - [ ] Error skipping/resolution
+  - [x] Protected global objects/prototypes
 
 ## Globals
 
-  - [x] Protected objects/prototypes
   - [ ] `Array`
   - [x] `Function`
   - [x] `Object`
