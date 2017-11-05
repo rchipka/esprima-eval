@@ -35,6 +35,14 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   - [ ] Error handling
   - [ ] Error skipping/resolution
 
+
+## Scope
+
+  - [x] Scope proxying
+  - [x] Scope chain lookup
+  - [x] Function scope (`var`)
+  - [x] Block scope (`let`)
+
 ## Operations
 
   - [x] Binary (&, |, ^)
@@ -60,7 +68,14 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
 
 ## Proxies
 
+  - [ ] Proxy constructor
   - [ ] Has/get/set/delete property
   - [ ] Get/set property descriptor
   - [ ] Get/set prototype
   - [ ] Apply
+
+## Promises
+
+  - [ ] Promise constructor
+  - [ ] Promise.then
+  - [ ] Promise.catch
