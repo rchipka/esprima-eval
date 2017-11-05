@@ -56,6 +56,7 @@ scope.walk(ast, function (returnValue) {
   - [ ] `String`
   - [ ] `Proxy`
   - [ ] `Symbol`
+  - [ ] `Math`
 
 ## Scope
 
