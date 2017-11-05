@@ -2,6 +2,14 @@
 
 Fast evaluation on ESTree-compatible ASTs
 
+# Features
+
+ * Comprehensive tests
+ * Fully asynchronous API and internals
+ * Esprima and Cherow compatible
+ * ECMA 3 and IE8 compatible
+ * ESNext support
+
 # Install
 
 `npm install esprima-eval`
@@ -18,14 +26,6 @@ new esEval.Scope(globals).walk(ast, function (returnValue) {
   // done
 });
 ```
-
-# Features
-
- * Comprehensive tests
- * Fully asynchronous API and internals
- * Esprima and Cherow compatible
- * ECMA 3 and IE8 compatible
- * ESNext support
 
 # Support
 
