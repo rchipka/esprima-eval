@@ -76,6 +76,7 @@ scope.walk(ast, function (returnValue) {
   - [x] And/or
   - [x] Strict/non-strict equality
   - [x] >=, <=
+  - [ ] instanceof
   - [x] If statements
 
 ## Loops
