@@ -1,7 +1,5 @@
 'use strict';
 
-var FunctionObject = require('../lib/FunctionObject.js');
-
 module.exports = function (scope, node, callback) {
   var body = node.body,
       name = node.id.name,

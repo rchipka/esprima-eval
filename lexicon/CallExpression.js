@@ -21,7 +21,7 @@ module.exports = function (scope, node, callback) {
         return;
       }
 
-      console.log('Real Call', callee, object, args);
+      // console.log('Real Call', callee, object, args);
 
       // TODO: .apply() null or `object`?
       callback(ret = callee.apply(null, args));

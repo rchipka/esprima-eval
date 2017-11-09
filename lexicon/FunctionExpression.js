@@ -16,7 +16,7 @@ module.exports = function (scope, node, callback) {
       };
 
   func.__internal__ = function (args, callback) {
-    var child = scope.child(),
+    var child = scope.child(node),
         ret;
 
     child.set('arguments', args, function () {

@@ -68,15 +68,20 @@ scope.walk(ast, function (returnValue) {
 
   - [x] Binary (&, |, ^)
   - [x] Mathematical (+, -, /, *, %)
-  - [x] Update before (++i, --i)
-  - [ ] Update after (i++, i--)
+  - [x] Increment before (++i, --i)
+  - [ ] Increment after (i++, i--)
+  - [ ] Add assignment
+  - [ ] Subtract assignment
+  - [ ] Multiply assignment
+  - [ ] Divide assignment
+  - [ ] typeof
 
 ## Conditionals
 
   - [x] And/or
   - [x] Strict/non-strict equality
-  - [x] >=, <=
-  - [ ] instanceof
+  - [x] <, >, <=, >=
+  - [x] instanceof
   - [x] If statements
 
 ## Loops

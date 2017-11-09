@@ -13,10 +13,10 @@ module.exports = function (scope, node, callback) {
 
     if (d.init !== null) {
       scope.walk(d.init, function (value) {
-        variableScope.set(d.id.name, value, next, setInBlockScope);
+        variableScope.set(node, d.id.name, value, next, setInBlockScope);
       });
     } else {
-      variableScope.set(d.id.name, undefined, next, setInBlockScope);
+      variableScope.set(node, d.id.name, undefined, next, setInBlockScope);
     }
   }, callback);
 }

@@ -37,7 +37,7 @@ var Globals = require('./lib/Globals.js'),
       ObjectExpression:       require('./lexicon/ObjectExpression.js'),
       BinaryExpression:       require('./lexicon/BinaryExpression.js'),
       LogicalExpression:      require('./lexicon/BinaryExpression.js'),
-      UpdateExpression:      require('./lexicon/UpdateExpression.js'),
+      UpdateExpression:       require('./lexicon/UpdateExpression.js'),
       CallExpression:         require('./lexicon/CallExpression.js'),
       MemberExpression:       require('./lexicon/MemberExpression.js'),
       ConditionalExpression:  require('./lexicon/ConditionalExpression.js'),
@@ -45,11 +45,11 @@ var Globals = require('./lib/Globals.js'),
       FunctionDeclaration:    require('./lexicon/FunctionDeclaration.js'),
       VariableDeclaration:    require('./lexicon/VariableDeclaration.js'),
       IfStatement:            require('./lexicon/IfStatement.js'),
-      ForStatement:            require('./lexicon/ForStatement.js'),
+      ForStatement:           require('./lexicon/ForStatement.js'),
       TemplateLiteral:        require('./lexicon/TemplateLiteral.js')
     };
 
-function Scope(parent, isBlock) {
+function Scope(parent, node, isBlock) {
   if (parent instanceof Scope) {
     this.parent = parent;
     this.global = parent.global;
@@ -57,9 +57,9 @@ function Scope(parent, isBlock) {
     this.data = {};
 
     if (isBlock === true) {
-      this.fs = parent.fs;
+      this.functionScope = parent.functionScope;
     } else {
-      this.fs = this;
+      this.functionScope = this;
     }
 
     for (var key in parent) {
@@ -71,7 +71,7 @@ function Scope(parent, isBlock) {
     this.parent = null;
     this.global = this;
     this.data = Globals(parent);
-    this.fs = this;
+    this.functionScope = this;
     this.depth = 0;
   }
 
@@ -80,40 +80,32 @@ function Scope(parent, isBlock) {
   return this;
 }
 
-Scope.prototype.child = function (isBlock) {
+Scope.prototype.child = function (node, isBlock) {
   return new Scope(this, isBlock);
-}
+};
 
 Scope.prototype.get = function (key, callback) {
   // console.log('get', key, this.depth, this.data);
 
   if (key === 'this') {
-    callback(this.fs.data.this);
+    callback(this.functionScope.data.this);
     return;
   }
 
-  if (this.data.hasOwnProperty(key) === false) {
-    this.getParent(function (parent) {
-      parent.get(key, callback);
-    }, callback);
-
-    return;
-  }
-
-  callback(this.data[key], this.data, key);
-}
+  this.getScopeOf(key, function (scope) {
+    callback(scope.data[key], scope.data, key);
+  }, callback);
+};
 
 Scope.prototype.getScopeOf = function (key, resolve, reject) {
   if (this.data.hasOwnProperty(key) === false) {
-    this.getParent(function (parent) {
+    return this.getParent(function (parent) {
       parent.getScopeOf(key, resolve, reject);
     }, reject);
-
-    return;
   }
 
-  resolve(this);
-}
+  return resolve(this);
+};
 
 Scope.prototype.set = function (key, value, callback, inBlockScope) {
   // TODO: `this`, `arguments` should only check hasOwnProp
@@ -128,11 +120,11 @@ Scope.prototype.set = function (key, value, callback, inBlockScope) {
       return;
     }
 
-    self.fs.data[key] = value;
+    self.functionScope.data[key] = value;
   });
 
   return callback(value);
-}
+};
 
 var util = require('util');
 Scope.prototype.walk = function (node, callback) {
@@ -158,7 +150,7 @@ Scope.prototype.walk = function (node, callback) {
   }
 
   return Lexicon[node.type](this, node, callback);
-}
+};
 
 Scope.prototype.walkArray = function (array, callback) {
   var scope = this;
@@ -166,7 +158,7 @@ Scope.prototype.walkArray = function (array, callback) {
   scope.iterate(array.length, function (i, next) {
     scope.walk(array[i], next);
   }, callback);
-}
+};
 
 Scope.prototype.iterate = function (length, callback, done) {
   if (length === 0) {
@@ -179,17 +171,17 @@ Scope.prototype.iterate = function (length, callback, done) {
       next = function (value) {
         if (++i < length) {
           callback(i, next);
-
-          if (++count === length) {
-            done(last);
-          }
         } else {
           last = value;
+        }
+
+        if (count++ === length) {
+          done(last);
         }
       };
 
   return next();
-}
+};
 
 Scope.prototype.getParent = function (resolve, reject) {
   if (this.parent === null) {
@@ -198,32 +190,26 @@ Scope.prototype.getParent = function (resolve, reject) {
   }
 
   resolve(this.parent);
-}
+};
 
 Scope.prototype.on = function (name, callback) {
-  if (this.hasOwnProperty(name) === false) {
-    this[name] = callback;
-    return;
-  }
-
   var prev = this[name];
 
-  this[name] = function () {
-    var length = arguments.length,
-        args = new Array(length + 1);
+  this[name] = callback;
 
-    args.push(function (value) {
-      args[length]     = args[length - 1];
-      args[length - 1] = value;
-
-      callback.apply(null, args);
-    });
-
-    prev.apply(null, args);
-  };
+  this['_' + name] = prev;
 
   return this;
-}
+};
+
+Scope.prototype.serialize = function (callback, data) {
+  this.getParent(function (parent) {
+    if (data === undefined) {
+      callback(parent.data);
+    }
+
+  }, callback)
+};
 
 Scope.prototype.error = function (node, message, callback) {
   console.log(node);
