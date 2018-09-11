@@ -1,14 +1,12 @@
 'use strict';
 
 module.exports = function (scope, node, callback) {
-  scope.walk(node.test, function (value) {
+  return scope.walk(node.test, function (value) {
+    console.log('if', value);
     if (value) {
-      scope.walk(node.consequent, callback);
-      return;
+      return scope.tryWalk(node.consequent, callback);
     }
 
-    if (node.alternate !== null) {
-      scope.walk(node.alternate, callback);
-    }
+    return scope.tryWalk(node.alternate, callback);
   });
 }

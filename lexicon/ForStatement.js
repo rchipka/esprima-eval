@@ -1,21 +1,17 @@
 'use strict';
 
-module.exports = function (scope, node, callback) {
-  var iterate = function (done) {
-    scope.walk(node.test, function (value) {
-      if (value == false) {
-        return done();
-      }
+module.exports = function ForStatement(scope, node, callback) {
+  return scope.tryWalk(node.init, function () {
+    return scope.iterate(Infinity, function (index, next, done) {
+      return scope.tryWalk(node.test, function (result) {
+        if (!result) {
+          return done(result);
+        }
 
-      scope.walk(node.body, function () {
-        scope.walk(node.update, function () {
-          iterate(done);
+        return scope.tryWalk(node.body, function () {
+          return scope.tryWalk(node.update, next);
         });
       });
-    });
-  };
-
-  scope.walk(node.init, function () {
-    iterate(callback);
+    }, callback);
   });
 }

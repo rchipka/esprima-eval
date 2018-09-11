@@ -65,8 +65,8 @@ var ops = {
 };
 
 module.exports = function (scope, node, callback) {
-  scope.child(node.type).walk(node.left, function (l) {
-    scope.child(node.type).walk(node.right, function (r) {
+  return scope.walk(node.left, function (l) {
+    return scope.walk(node.right, function (r) {
       return ops[node.operator](l, r, callback, scope);
     });
   });

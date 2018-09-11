@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (scope, node, callback) {
-  scope.walk(node.left, function (left, object, prop) {
+  return scope.walk(node.left, function (left, object, prop) {
     var setScope = scope;
 
     if (typeof left === 'undefined' && typeof prop !== 'string') {
@@ -14,13 +14,12 @@ module.exports = function (scope, node, callback) {
       }
     }
 
-    scope.walk(node.right, function (right) {
+   return scope.walk(node.right, function (right) {
       if (typeof prop === 'string') {
-        callback(object[prop] = right);
-        return;
+        return callback(object[prop] = right);
       }
 
-      setScope.set(node.left.name, right, callback);
+      return setScope.set(node.left.name, right, callback);
     });
   });
 }

@@ -58,7 +58,9 @@ describe('Functions', function () {
         (function () {
           Test(a1, b1, c1, d1, d1.test);
         })();
-      })(scope, done);
+      })(scope, function () {
+        done();
+      });
     });
 
     // should error when calling non function

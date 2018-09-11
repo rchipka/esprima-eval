@@ -1,36 +1,20 @@
 'use strict';
 
-module.exports = function (self, node, callback) {
-  var str = '',
-      expressions = node.expressions,
-      length = expressions.length;
-      index = 0,
-      iterate = function (index, array, cb, done) {
-        if (index < length) {
-          return cb(expressions[index++], function () {
-            iterate(index, array, cb, done);
-          });
-        }
+module.exports = function (scope, node, callback) {
+  return scope.iterate(node.quasis.length, function (i, next, done, string) {
+    var quasis = node.quasis[i],
+        expression = null;
 
-        return done();
-      };
+      if (quasis.tail === false) {
+        expression = node.expressions[i];
+      }
 
-  return iterate(0, quasis, function (quasis, next) {
-      self.child(node.type).walk(quasis, function (value) {
-        str += value;
-        next();
-      });
-  }, function () {
-    iterate(0, expressions, function (expression, next) {
-      self.child(node.type).walk(expression, function (value) {
-        str += value;
-        next();
-      });
-    }, function () {
-      self.child(node.type).walk(node.quasis[length], function (value) {
-        str += value;
-        callback(str);
-      });
-    });
-  });
+      return scope.tryWalk(quasis, function (qValue) {
+        return scope.tryWalk(expression, function (eValue) {
+          next(string += qValue + eValue);
+        }, '');
+      }, '');
+  }, function (value) {
+    return callback(value);
+  }, '');
 }

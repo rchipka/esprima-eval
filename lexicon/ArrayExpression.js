@@ -1,24 +1,13 @@
 'use strict';
 
-module.exports = function (self, node, callback) {
-  var length = node.elements.length,
-      array = Array(length);
+module.exports = function ArrayExpression(scope, node, callback) {
+  var elements = node.elements;
 
-  if (length < 1) {
-    return callback(array);
-  }
+  return scope.iterate(elements.length, function (index, next, done, array) {
+      return scope.walk(elements[index], function (value) {
+        array[index] = value;
 
-  var push = function (value) {
-    if (array.push(value) === length) {
-      callback(array);
-    }
-  }
-
-  for (var i = 0, l = length; i < l; i++) {
-    self.child(node.elements[i].type).walk(node.elements[i], function (value) {
-      push(value);
-    });
-  }
-
-  return;
+        return next(array);
+      });
+    }, callback, Array(elements.length));
 }

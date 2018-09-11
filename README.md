@@ -122,3 +122,10 @@ scope.walk(ast, function (returnValue) {
  - [ ] Error constructor
  - [ ] Stack traces
  - [ ] Try/catch
+
+ # Prior Art
+
+ https://www.npmjs.com/package/esper.js
+ https://www.npmjs.com/package/sandboxr
+ https://github.com/NeilFraser/JS-Interpreter
+ https://github.com/mozilla/narcissus/

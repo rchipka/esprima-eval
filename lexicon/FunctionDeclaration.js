@@ -1,43 +1,9 @@
 'use strict';
 
-module.exports = function (scope, node, callback) {
-  var body = node.body,
-      name = node.id.name,
-      params = node.params,
-      func = function () {
-        var length = arguments.length,
-            args = new Array(length),
-            i = 0;
+var InternalFunction = require('../lib/Function.js');
 
-        for (; i < length; i++) {
-          args[i] = arguments[i];
-        }
-
-        return func.__internal__(args, function () {});
-      };
-
-  func.__internal__ = function (args, callback) {
-    var child = scope.child(),
-        ret;
-
-    child.set('arguments', args, function () {
-      child.iterate(args.length, function (i, next) {
-        var param = params[i];
-
-        if (param.type === 'Identifier') {
-          child.set(param.name, args[i], next);
-        } else {
-          child.walk(param, next);
-        }
-      }, function () {
-        child.walk(body, function (value) {
-          callback(ret = value);
-        });
-      });
-    });
-
-    return ret;
-  }
-
-  scope.set(name, func, callback);
+module.exports = function FunctionDeclaration(scope, node, callback) {
+  return InternalFunction(scope, node.params, node.body.body, function (func) {
+    return scope.assign(node.id.name, func, callback);
+  });
 }

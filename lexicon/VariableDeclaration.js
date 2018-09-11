@@ -11,12 +11,8 @@ module.exports = function (scope, node, callback) {
   scope.iterate(declarations.length, function (i, next) {
     d = declarations[i];
 
-    if (d.init !== null) {
-      scope.walk(d.init, function (value) {
-        variableScope.set(node, d.id.name, value, next, setInBlockScope);
-      });
-    } else {
-      variableScope.set(node, d.id.name, undefined, next, setInBlockScope);
-    }
+    return scope.tryWalk(d.init, function (value) {
+      return variableScope.assign(d.id.name, value, next, setInBlockScope);
+    });
   }, callback);
 }

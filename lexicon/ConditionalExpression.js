@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = function (self, node, callback) {
-  self.child(node.type).walk(node.test, function (val) {
+module.exports = function (scope, node, callback) {
+  return scope.walk(node.test, function (val) {
     if (val) {
-      self.child(node.type + ' TRUE').walk(node.consequent, callback);
-    } else {
-      self.child(node.type + ' FALSE').walk(node.alternate, callback);
+      return scope.walk(node.consequent, callback);
     }
+
+    return scope.walk(node.alternate, callback);
   });
 }
