@@ -33,6 +33,6 @@
   "dependencies": {},
   "devDependencies": {
     "esprima": "^4.0.0",
-    "mocha": "^4.0.1"
+    "mocha": "^10.2.0"
   }
 }
